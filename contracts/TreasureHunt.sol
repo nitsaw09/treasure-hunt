@@ -22,13 +22,13 @@ contract TreasureHunt {
     
     // Modifier to ensure a valid move within the grid boundaries
     modifier validMove(uint8 newPosition) {
-        require(newPosition < GRID_TOTAL, "Invalid grid position");
+        require(newPosition >= 0 && newPosition < GRID_TOTAL, "Invalid grid position");
         _;
     }
     
     // Function for players to move to a new position
     function move(uint8 newPosition) external payable validMove(newPosition) {
-        require(msg.value != 0, "ETH required to play");  // Ensure ETH is sent with the move
+        require(msg.value > 0, "ETH required to play");  // Ensure ETH is sent with the move
         require(isAdjacent(playerPositions[msg.sender], newPosition), "Move to adjacent position");
 
         playerPositions[msg.sender] = newPosition;  // Update player position
